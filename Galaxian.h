@@ -17,6 +17,12 @@ class Entity {
         void setX(int newX) {x = newX;}
         void setY(int newY) {y = newY;}
 
+        void moveUp() {y--;}
+        void moveDown() {y++;}
+
+        void moveLeft() {x--;}
+        void moveRight() {x++;}
+
     private:
         int x;
         int y;
@@ -35,10 +41,10 @@ class Galaxian {
 
         Entity Player;
         std::vector<std::vector<Entity>> Waves;
-
         std::vector<Entity> Bullets;
 
         void initialize_entities();
         void draw_game();
         void capture_keystroke();
+        void update_game();
 };

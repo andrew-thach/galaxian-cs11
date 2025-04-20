@@ -19,6 +19,7 @@ void Galaxian::play() {
     while(!game_over) {
         draw_game();
         capture_keystroke();
+        update_game();
         usleep(DELAY);
     }
 
@@ -90,17 +91,22 @@ void Galaxian::capture_keystroke() {
     int ch = getch();
     switch(ch) {
         case KEY_LEFT:
-            if(Player.getX() > 0) Player.setX(Player.getX() - 1);
+            if(Player.getX() > 0)
+                Player.moveLeft();
             break;
         case KEY_RIGHT:
-            if(Player.getX() < COLS - 1) Player.setX(Player.getX() + 1);
+            if(Player.getX() < COLS - 1)
+                Player.moveRight();
             break;
         case ' ':
-            // TODO: Bullets.
-            Bullets.push_back(Entity(Player.getX(), Player.getY() - 1));
+            // TODO: Create a bullet at Player's current position and store it.
             break;
         case 'q':
             game_over = true;
             break;
     }
+}
+
+void Galaxian::update_game() {
+
 }
