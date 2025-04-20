@@ -36,6 +36,8 @@ class Galaxian {
         Entity Player;
         std::vector<std::vector<Entity>> Waves;
 
+        std::vector<Entity> Bullets;
+
         void initialize_entities();
         void draw_game();
         void capture_keystroke();

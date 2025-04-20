@@ -35,14 +35,14 @@ void Galaxian::initialize_entities() {
     const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
 
     // Swarm starts on the center top of the terminal. 
-    int swarm_row_offset = 1;
+    int swarm_row_offset = 2;
     int swarm_col_offset = COLS / 2  - (num_enemy_rows - 1) * WAVE_COL_SPACING;
 
     // Initialize enemy grid (pyramid shaped).
-    for(int row_pos = 0; row_pos < num_enemy_rows; row_pos++) {
+    for(int row_pos = 0; row_pos < num_enemy_rows; ++row_pos) {
         std::vector<Entity> Wave;
 
-        for(int col_pos = 0; col_pos < row_pos * 2 + 1; col_pos++) {
+        for(int col_pos = 0; col_pos < row_pos * 2 + 1; ++col_pos) {
             // Calculates the horionztal offset for the pyramid row.
             int pyramid_offset = num_enemy_rows - row_pos - 1;
 
@@ -70,14 +70,18 @@ void Galaxian::draw_game() {
     // mvprintw(Player.getY(), Player.getX(), "🤖"); 
 
     // Draw enemies.
-    for(unsigned i = 0; i < Waves.size(); i++) {
-        for(unsigned j = 0; j < Waves[i].size(); j++) {
+    for(unsigned i = 0; i < Waves.size(); ++i) {
+        for(unsigned j = 0; j < Waves[i].size(); ++j) {
             mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "M");
             // This line is temporarily disabled because an emoji has a width > 1, which messes with the alignment.
             // mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾"); 
         }
     }
 
+    // Draw bullets.
+    for (unsigned i = 0; i < Bullets.size(); ++i) {
+        mvprintw(Bullets[i].getY(), Bullets[i].getX(), "|");
+    }
 
     refresh();
 }
@@ -93,6 +97,7 @@ void Galaxian::capture_keystroke() {
             break;
         case ' ':
             // TODO: Bullets.
+            Bullets.push_back(Entity(Player.getX(), Player.getY() - 1));
             break;
         case 'q':
             game_over = true;
