@@ -66,6 +66,7 @@ void Galaxian::draw_game() {
     clear();
 
     mvprintw(0, 0, "Score: %d", score);
+    mvprintw(1, 0, "Waves: %ld", Waves.size());
 
     // Draw player.
     mvprintw(Player.getY(), Player.getX(), "^");
