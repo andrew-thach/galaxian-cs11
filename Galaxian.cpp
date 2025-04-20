@@ -3,6 +3,11 @@
 Galaxian::Galaxian(int difficulty) {
     game_over = false;
     score = 0;
+
+    // Default to 3 if out of bounds.
+    if (difficulty < 0 || difficulty > 5) {
+        difficulty = 3;
+    }
     num_enemy_rows = difficulty;
 }
 
@@ -26,6 +31,10 @@ void Galaxian::play() {
     }
 
     endwin();
+}
+
+int Galaxian::getScore() const {
+    return score;
 }
 
 void Galaxian::initialize_entities() {

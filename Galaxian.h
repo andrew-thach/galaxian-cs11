@@ -33,6 +33,7 @@ class Galaxian {
     public:
         Galaxian(int difficulty);
         void play();
+        int getScore() const;
 
     private:
         bool game_over;
