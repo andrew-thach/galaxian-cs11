@@ -34,10 +34,9 @@ void Galaxian::initialize_entities() {
     const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
     const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
 
-    // Not necessary, but these variables give room for a future upgrade, 
-    // where one can adjust these variables and make the swarm move.
-    int swarm_row_offset = 1; // Swarm starts below the first line.
-    int swarm_col_offset = 0; // Swarm starts on the left.
+    // Swarm starts on the center top of the terminal. 
+    int swarm_row_offset = 1;
+    int swarm_col_offset = COLS / 2  - (num_enemy_rows - 1) * WAVE_COL_SPACING;
 
     // Initialize enemy grid (pyramid shaped).
     for(int row_pos = 0; row_pos < num_enemy_rows; row_pos++) {
@@ -49,8 +48,8 @@ void Galaxian::initialize_entities() {
 
             // Constructs an enemy with given coordinates, then stores the enemy in the wave.
             Entity Enemy(
-                    (col_pos + swarm_col_offset + pyramid_offset) * WAVE_COL_SPACING,
-                    (row_pos + swarm_row_offset) * WAVE_ROW_SPACING
+                    (col_pos + pyramid_offset) * WAVE_COL_SPACING + swarm_col_offset,
+                    row_pos * WAVE_ROW_SPACING + swarm_row_offset
             );
             Wave.push_back(Enemy);
         }
@@ -61,17 +60,21 @@ void Galaxian::initialize_entities() {
 }
 
 void Galaxian::draw_game() {
-    // clear();
+    clear();
 
     mvprintw(0, 0, "Score: %d", score);
 
     // Draw player.
-    mvprintw(Player.getY(), Player.getX(), "🤖");
+    mvprintw(Player.getY(), Player.getX(), "^");
+    // This line is temporarly disabled because an emoji has a width > 1, which messes with the alignment.
+    // mvprintw(Player.getY(), Player.getX(), "🤖"); 
 
     // Draw enemies.
     for(unsigned i = 0; i < Waves.size(); i++) {
         for(unsigned j = 0; j < Waves[i].size(); j++) {
-            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾");
+            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "M");
+            // This line is temporarily disabled because an emoji has a width > 1, which messes with the alignment.
+            // mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾"); 
         }
     }
 
