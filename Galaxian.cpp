@@ -1,6 +1,7 @@
 #include "Galaxian.h"
 
 Galaxian::Galaxian(int difficulty) {
+    game_over = false;
     score = 0;
     num_enemy_rows = difficulty;
 }
@@ -15,8 +16,9 @@ void Galaxian::play() {
 
     initialize_entities();
 
-    while(1) {
+    while(!game_over) {
         draw_game();
+        capture_keystroke();
         usleep(DELAY);
     }
 
@@ -75,4 +77,22 @@ void Galaxian::draw_game() {
 
 
     refresh();
+}
+
+void Galaxian::capture_keystroke() {
+    int ch = getch();
+    switch(ch) {
+        case KEY_LEFT:
+            if(Player.getX() > 0) Player.setX(Player.getX() - 1);
+            break;
+        case KEY_RIGHT:
+            if(Player.getX() < COLS - 1) Player.setX(Player.getX() + 1);
+            break;
+        case ' ':
+            // TODO: Bullets.
+            break;
+        case 'q':
+            game_over = true;
+            break;
+    }
 }

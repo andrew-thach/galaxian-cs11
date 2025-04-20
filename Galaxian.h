@@ -3,7 +3,7 @@
 #include <unistd.h>  // Used for delaying the refresh rate (TODO: Consider using <chrono> instead)
 #include <vector>
 
-#define DELAY 100000
+#define DELAY 10000
 
 // These function prototypes are implemented inline.
 class Entity {
@@ -29,6 +29,7 @@ class Galaxian {
         void play();
 
     private:
+        bool game_over;
         int score;
         int num_enemy_rows;
 
@@ -37,4 +38,5 @@ class Galaxian {
 
         void initialize_entities();
         void draw_game();
+        void capture_keystroke();
 };
