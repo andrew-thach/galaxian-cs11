@@ -14,13 +14,15 @@ void Galaxian::play() {
     noecho();              // Disable output of keypresses.
     curs_set(FALSE);       // Disable blinking cursor.
 
+    // Sets the frames per second.
+    timeout(MILLISECONDS_PER_FRAME);
+
     initialize_entities();
 
     while(!game_over) {
         draw_game();
         capture_keystroke();
         update_game();
-        usleep(DELAY);
     }
 
     endwin();
@@ -88,25 +90,45 @@ void Galaxian::draw_game() {
 }
 
 void Galaxian::capture_keystroke() {
+    // FIXME: Declaring an object in a case gives a cross-initialization error.
+    // int ch = getch();
+    // switch(ch) {
+    //     case KEY_LEFT:
+    //         if(Player.getX() > 0)
+    //             Player.moveLeft();
+    //         break;
+    //     case KEY_RIGHT:
+    //         if(Player.getX() < COLS - 1)
+    //             Player.moveRight();
+    //         break;
+    //     case ' ':
+    //         // TODO: Create a bullet at Player's current position and store it.
+    //         break;
+    //     case 'q':
+    //         game_over = true;
+    //         break;
+    // }
     int ch = getch();
-    switch(ch) {
-        case KEY_LEFT:
-            if(Player.getX() > 0)
-                Player.moveLeft();
-            break;
-        case KEY_RIGHT:
-            if(Player.getX() < COLS - 1)
-                Player.moveRight();
-            break;
-        case ' ':
-            // TODO: Create a bullet at Player's current position and store it.
-            break;
-        case 'q':
-            game_over = true;
-            break;
+    if(ch == KEY_LEFT) {
+        if(Player.getX() > 0)
+            Player.moveLeft();
+    }
+    else if(ch == KEY_RIGHT) {
+        if(Player.getX() < COLS - 1)
+            Player.moveRight();
+    }
+    else if(ch == ' ') {
+        // Create a bullet at Player's current position and store it.
+        Entity Projectile(Player.getX(), Player.getY() - 1);
+        Bullets.push_back(Projectile);
+    }
+    else if(ch == 'q') {
+        game_over = true;
     }
 }
 
 void Galaxian::update_game() {
-
+    for (unsigned i = 0; i < Bullets.size(); ++i) {
+        Bullets[i].moveUp();
+    }
 }

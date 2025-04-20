@@ -3,7 +3,7 @@
 #include <unistd.h>  // Used for delaying the refresh rate (TODO: Consider using <chrono> instead)
 #include <vector>
 
-#define DELAY 10000
+#define MILLISECONDS_PER_FRAME 50
 
 // These function prototypes are implemented inline.
 class Entity {
