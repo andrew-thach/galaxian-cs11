@@ -1,6 +1,7 @@
 #include "Galaxian.h"
 
 int main() {
-    Galaxian Round;
+    int difficulty = 3;
+    Galaxian Round(difficulty);
     Round.play();
 }
