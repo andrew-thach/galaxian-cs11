@@ -65,50 +65,15 @@ void Galaxian::initialize_entities() {
 void Galaxian::draw_game() {
     clear();
 
-    mvprintw(0, 0, "Score: %d", score);
-    mvprintw(1, 0, "Waves: %ld", Waves.size());
-
-    // Draw player.
-    mvprintw(Player.getY(), Player.getX(), "^");
-    // This line is temporarly disabled because an emoji has a width > 1, which messes with the alignment.
-    // mvprintw(Player.getY(), Player.getX(), "🤖"); 
-
-    // Draw enemies.
-    for(unsigned i = 0; i < Waves.size(); ++i) {
-        for(unsigned j = 0; j < Waves[i].size(); ++j) {
-            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "M");
-            // This line is temporarily disabled because an emoji has a width > 1, which messes with the alignment.
-            // mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾"); 
-        }
-    }
-
-    // Draw bullets.
-    for (unsigned i = 0; i < Bullets.size(); ++i) {
-        mvprintw(Bullets[i].getY(), Bullets[i].getX(), "|");
-    }
+    display_scoreboard();
+    display_player();
+    display_swarm();
+    display_bullets();
 
     refresh();
 }
 
 void Galaxian::capture_keystroke() {
-    // FIXME: Declaring an object in a case gives a cross-initialization error.
-    // int ch = getch();
-    // switch(ch) {
-    //     case KEY_LEFT:
-    //         if(Player.getX() > 0)
-    //             Player.moveLeft();
-    //         break;
-    //     case KEY_RIGHT:
-    //         if(Player.getX() < COLS - 1)
-    //             Player.moveRight();
-    //         break;
-    //     case ' ':
-    //         // TODO: Create a bullet at Player's current position and store it.
-    //         break;
-    //     case 'q':
-    //         game_over = true;
-    //         break;
-    // }
     int ch = getch();
     if(ch == KEY_LEFT) {
         if(Player.getX() > 0)
@@ -131,5 +96,37 @@ void Galaxian::capture_keystroke() {
 void Galaxian::update_game() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
         Bullets[i].moveUp();
+    }
+}
+
+
+//////////////////////////////////////
+// Helper functions for draw_game() //
+//////////////////////////////////////
+
+void Galaxian::display_scoreboard() {
+    mvprintw(0, 0, "Score: %d", score);
+    mvprintw(1, 0, "Waves: %ld", Waves.size());
+}
+
+void Galaxian::display_player() {
+    mvprintw(Player.getY(), Player.getX(), "^");
+    // This line is temporarly disabled because an emoji has a width > 1, which messes with the alignment.
+    // mvprintw(Player.getY(), Player.getX(), "🤖"); 
+}
+
+void Galaxian::display_swarm() {
+    for(unsigned i = 0; i < Waves.size(); ++i) {
+        for(unsigned j = 0; j < Waves[i].size(); ++j) {
+            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "M");
+            // This line is temporarily disabled because an emoji has a width > 1, which messes with the alignment.
+            // mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾"); 
+        }
+    }
+}
+
+void Galaxian::display_bullets() {
+    for (unsigned i = 0; i < Bullets.size(); ++i) {
+        mvprintw(Bullets[i].getY(), Bullets[i].getX(), "|");
     }
 }

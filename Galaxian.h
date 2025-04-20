@@ -47,4 +47,10 @@ class Galaxian {
         void draw_game();
         void capture_keystroke();
         void update_game();
+
+        // Helper functions for draw_game().
+        void display_scoreboard();
+        void display_player();
+        void display_swarm();
+        void display_bullets();
 };
