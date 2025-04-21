@@ -2,7 +2,6 @@
 #include "Galaxian.h"
 
 int main() {
-    
     int difficulty;
     std::cout << "What difficulty do you want (1 - 5)? ";
     std::cin >> difficulty;
