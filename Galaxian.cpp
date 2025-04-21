@@ -4,6 +4,7 @@
 
 #define MILLISECONDS_PER_FRAME 50
 
+// Constructs a game with specified difficulty.
 Galaxian::Galaxian(int difficulty) {
     // Default to 3 if out of bounds.
     if (difficulty < 0 || difficulty > 5) {
@@ -15,6 +16,7 @@ Galaxian::Galaxian(int difficulty) {
     game_over = false;
 }
 
+// Starts a single round of the game.
 void Galaxian::play() {
     // Enable UTF-8 support for emojis.
     // Not currently used, since UTF-8 characters are wider, 
@@ -53,14 +55,15 @@ void Galaxian::initialize_entities() {
 }
 
 void Galaxian::draw_game() {
-    clear();
+    clear(); // Ncurses function: clears the frame so the previous frame doesn't overlap.
 
-    display_scoreboard();
-    display_player();
-    display_swarm();
-    display_bullets();
+    // Prepare frame before outputting it.
+    buffer_scoreboard();
+    buffer_player();
+    buffer_swarm();
+    buffer_bullets();
 
-    refresh();
+    refresh(); // Ncurses function: Ouptut the buffered frame to the terminal window.
 }
 
 void Galaxian::capture_keystroke() {
@@ -81,6 +84,8 @@ void Galaxian::capture_keystroke() {
     }
 }
 
+// TODO: The goal of this function is to keep the class attributes updated.
+// This will allow the display functions to correctly show the updated frame.
 void Galaxian::update_game() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
         Bullets[i].moveUp();
@@ -101,7 +106,7 @@ void Galaxian::update_game() {
 // Helper functions for initialize_entities() //
 ////////////////////////////////////////////////
 std::vector<std::vector<Entity>> Galaxian::build_swarm(std::string shape) {
-    std::vector<std::vector<Entity>> Swarm;
+    std::vector<std::vector<Entity>> Formation;
 
     const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
     const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
@@ -110,6 +115,7 @@ std::vector<std::vector<Entity>> Galaxian::build_swarm(std::string shape) {
     int swarm_row_offset = 2;
     int swarm_col_offset = COLS / 2  - (num_enemy_rows - 1) * WAVE_COL_SPACING;
 
+    // Shape algorithm inspired from ZyBooks, 4.14.5.
     if (shape == "pyramid") {
         for(int row_pos = 0; row_pos < num_enemy_rows; ++row_pos) {
             std::vector<Entity> Wave;
@@ -127,26 +133,26 @@ std::vector<std::vector<Entity>> Galaxian::build_swarm(std::string shape) {
                 Wave.push_back(Enemy);
             }
 
-            Swarm.push_back(Wave); // Add a new row (wave).
+            Formation.push_back(Wave); // Add a new row (wave).
         }
     }
-    return Swarm;
+    return Formation;
 }
 
 //////////////////////////////////////
 // Helper functions for draw_game() //
 //////////////////////////////////////
 
-void Galaxian::display_scoreboard() {
+void Galaxian::buffer_scoreboard() {
     mvprintw(0, 0, "Score: %d", score);
     mvprintw(1, 0, "Waves: %ld", Waves.size());
 }
 
-void Galaxian::display_player() {
+void Galaxian::buffer_player() {
     mvprintw(Player.getY(), Player.getX(), Player.getSymbol().c_str());
 }
 
-void Galaxian::display_swarm() {
+void Galaxian::buffer_swarm() {
     for(unsigned i = 0; i < Waves.size(); ++i) {
         for(unsigned j = 0; j < Waves[i].size(); ++j) {
             mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), Waves[i][j].getSymbol().c_str());
@@ -154,7 +160,7 @@ void Galaxian::display_swarm() {
     }
 }
 
-void Galaxian::display_bullets() {
+void Galaxian::buffer_bullets() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
         mvprintw(Bullets[i].getY(), Bullets[i].getX(), Bullets[i].getSymbol().c_str());
     }

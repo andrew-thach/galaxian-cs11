@@ -10,6 +10,7 @@ class Galaxian {
         int getScore() const;
 
     private:
+        // Class attributes.
         int num_enemy_rows;
         int score;
         bool game_over;
@@ -27,8 +28,8 @@ class Galaxian {
         std::vector<std::vector<Entity>> build_swarm(std::string shape);
 
         // Helpers for draw_game().
-        void display_scoreboard();
-        void display_player();
-        void display_swarm();
-        void display_bullets();
+        void buffer_scoreboard();
+        void buffer_player();
+        void buffer_swarm();
+        void buffer_bullets();
 };
