@@ -25,9 +25,13 @@ Navigate to your projects directory, and clone this repository.
 git clone https://github.com/andrew-thach/galaxian-cs11.git
 ```
 
+Navigate to the project folder.
+```bash
+cd galaxian-cs11
+```
 
 
-Compile and link the **ncurses** library:
+Compile the sources (.cpp files) and link the **ncurses** library:
 ```bash
 g++ -Wall -pedantic Galaxian.cpp main.cpp -lncurses -o play
 ```
@@ -36,6 +40,12 @@ Run the application.
 ```bash
 ./play
 ```
+
+### Controls
+To interact with the game:
+- **Left arrow** and **right arrow** to move.
+- **Spacebar** to shoot a bullet.
+- **q** to quit.
 
 # Project Directions
 1. Trace through the code to understand its intended design.
