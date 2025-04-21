@@ -1,7 +1,8 @@
 #include <locale.h>  // Allows UTF-8 Support for emojis.
 #include <ncurses.h> // Gives us a text based interface.
-
 #include "Galaxian.h"
+
+#define MILLISECONDS_PER_FRAME 50
 
 Galaxian::Galaxian(int difficulty) {
     // Default to 3 if out of bounds.
@@ -15,7 +16,9 @@ Galaxian::Galaxian(int difficulty) {
 }
 
 void Galaxian::play() {
-    // Enable UTF-8 support for emojis (not used, since UTF-8 characters are wider, and messes with the alignment/hitboxes.
+    // Enable UTF-8 support for emojis.
+    // Not currently used, since UTF-8 characters are wider, 
+    // and messes with the alignment/hitboxes.
     setlocale(LC_ALL, "");
 
     initscr();             // Initializes ncurses library.
@@ -42,37 +45,10 @@ int Galaxian::getScore() const {
 }
 
 void Galaxian::initialize_entities() {
-    // Player starts in the bottom center.
-    // COLS and LINES are global variables from ncurses.
+    // Player starts in the bottom center. COLS and LINES are global variables from ncurses.
     Player = Entity(COLS / 2, LINES - 2, "^");
 
-    const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
-    const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
-
-    // Swarm starts on the center top of the terminal. 
-    int swarm_row_offset = 2;
-    int swarm_col_offset = COLS / 2  - (num_enemy_rows - 1) * WAVE_COL_SPACING;
-
-    // Initialize enemy grid (pyramid shaped).
-    for(int row_pos = 0; row_pos < num_enemy_rows; ++row_pos) {
-        std::vector<Entity> Wave;
-
-        for(int col_pos = 0; col_pos < row_pos * 2 + 1; ++col_pos) {
-            // Calculates the horionztal offset for the pyramid row.
-            int pyramid_offset = num_enemy_rows - row_pos - 1;
-
-            // Constructs an enemy with given coordinates, then stores the enemy in the wave.
-            Entity Enemy(
-                    (col_pos + pyramid_offset) * WAVE_COL_SPACING + swarm_col_offset,
-                    row_pos * WAVE_ROW_SPACING + swarm_row_offset,
-                    "M"
-            );
-            Wave.push_back(Enemy);
-        }
-
-        Waves.push_back(Wave); // Add a new row (wave).
-    }
-
+    Waves = build_swarm("pyramid");
 }
 
 void Galaxian::draw_game() {
@@ -95,7 +71,7 @@ void Galaxian::capture_keystroke() {
         Player.moveRight();
     }
     else if(ch == ' ') {
-        // Create a bullet at Player's current position and store it.
+        // Create a bullet above Player's current position and store it.
         Entity Projectile(Player.getX(), Player.getY() - 1, "|");
         Bullets.push_back(Projectile);
     }
@@ -110,6 +86,41 @@ void Galaxian::update_game() {
     }
 }
 
+////////////////////////////////////////////////
+// Helper functions for initialize_entities() //
+////////////////////////////////////////////////
+std::vector<std::vector<Entity>> Galaxian::build_swarm(std::string shape) {
+    std::vector<std::vector<Entity>> Swarm;
+
+    const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
+    const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
+
+    // Swarm starts on the center top of the terminal. 
+    int swarm_row_offset = 2;
+    int swarm_col_offset = COLS / 2  - (num_enemy_rows - 1) * WAVE_COL_SPACING;
+
+    if (shape == "pyramid") {
+        for(int row_pos = 0; row_pos < num_enemy_rows; ++row_pos) {
+            std::vector<Entity> Wave;
+
+            for(int col_pos = 0; col_pos < row_pos * 2 + 1; ++col_pos) {
+                // Calculates the horionztal offset for the pyramid row.
+                int pyramid_offset = num_enemy_rows - row_pos - 1;
+
+                // Constructs an enemy with given coordinates, then stores the enemy in the wave.
+                Entity Enemy(
+                        (col_pos + pyramid_offset) * WAVE_COL_SPACING + swarm_col_offset,
+                        row_pos * WAVE_ROW_SPACING + swarm_row_offset,
+                        "M"
+                );
+                Wave.push_back(Enemy);
+            }
+
+            Swarm.push_back(Wave); // Add a new row (wave).
+        }
+    }
+    return Swarm;
+}
 
 //////////////////////////////////////
 // Helper functions for draw_game() //

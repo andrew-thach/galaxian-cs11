@@ -1,42 +1,6 @@
 #include <string>
 #include <vector>
-
-#define MILLISECONDS_PER_FRAME 50
-
-// These function prototypes are implemented inline.
-class Entity {
-    public:
-        Entity() {
-            setX(0);
-            setY(0);
-            setSymbol(".");
-        }
-
-        Entity(int newX, int newY, std::string newSymbol) {
-            setX(newX);
-            setY(newY);
-            setSymbol(newSymbol);
-        }
-
-        int getX() const {return x;}
-        int getY() const {return y;}
-        std::string getSymbol() const {return symbol;}
-
-        void setX(int newX) {x = newX;}
-        void setY(int newY) {y = newY;}
-        void setSymbol(std::string newSymbol) {symbol = newSymbol;}
-
-        void moveUp() {y--;}
-        void moveDown() {y++;}
-
-        void moveLeft() {x--;}
-        void moveRight() {x++;}
-
-    private:
-        int x;
-        int y;
-        std::string symbol;
-};
+#include "Entity.h"
 
 // These function prototypes are implemented in the Galaxian.cpp file.
 class Galaxian {
@@ -59,7 +23,10 @@ class Galaxian {
         void capture_keystroke();
         void update_game();
 
-        // Helper functions for draw_game().
+        // Helper for initialize_entities().
+        std::vector<std::vector<Entity>> build_swarm(std::string shape);
+
+        // Helpers for draw_game().
         void display_scoreboard();
         void display_player();
         void display_swarm();
