@@ -1,4 +1,3 @@
-#include <locale.h>  // Allows UTF-8 Support for emojis.
 #include <ncurses.h> // Gives us a text based interface.
 #include "Galaxian.h"
 
@@ -18,11 +17,6 @@ Galaxian::Galaxian(int difficulty) {
 
 // Starts a single round of the game.
 void Galaxian::play() {
-    // Enable UTF-8 support for emojis.
-    // Not currently used, since UTF-8 characters are wider, 
-    // and messes with the alignment/hitboxes.
-    setlocale(LC_ALL, "");
-
     initscr();             // Initializes ncurses library.
     keypad(stdscr, TRUE);  // Enable keyboard input.
     noecho();              // Disable output of keypresses.
