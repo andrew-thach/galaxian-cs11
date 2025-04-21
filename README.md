@@ -7,13 +7,27 @@ This repository hosts starter code for students to build a similar game.
 
 The game is text-based, and relies on [ncurses](https://en.wikipedia.org/wiki/Ncurses), a library that makes it easier to build TUIs (text based interfaces).
 
+# Dependencies
+Before starting this project, you might need to install the **ncurses** library.
+Installation depends on your environment:
+
+### WSL (Ubuntu)
+```bash
+sudo apt-get install libncurses-dev
+```
+
+### MacOS
+Ncurses should already be installed, since this comes with the default MacOS C++ environment that was installed in the beginning of the semester.
+
 # Getting started
 Navigate to your projects directory, and clone this repository.
 ```bash
 git clone https://github.com/andrew-thach/galaxian-cs11.git
 ```
 
-Compile and link the ncurses library:
+
+
+Compile and link the **ncurses** library:
 ```bash
 g++ -Wall -pedantic Galaxian.cpp main.cpp -lncurses -o play
 ```
