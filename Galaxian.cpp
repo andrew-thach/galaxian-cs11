@@ -149,19 +149,19 @@ void Galaxian::buffer_scoreboard() {
 }
 
 void Galaxian::buffer_player() {
-    mvprintw(Player.getY(), Player.getX(), Player.getSymbol().c_str());
+    mvprintw(Player.getY(), Player.getX(), "%s", Player.getSymbol().c_str());
 }
 
 void Galaxian::buffer_swarm() {
     for(unsigned i = 0; i < Waves.size(); ++i) {
         for(unsigned j = 0; j < Waves[i].size(); ++j) {
-            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), Waves[i][j].getSymbol().c_str());
+            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "%s", Waves[i][j].getSymbol().c_str());
         }
     }
 }
 
 void Galaxian::buffer_bullets() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
-        mvprintw(Bullets[i].getY(), Bullets[i].getX(), Bullets[i].getSymbol().c_str());
+        mvprintw(Bullets[i].getY(), Bullets[i].getX(), "%s", Bullets[i].getSymbol().c_str());
     }
 }
