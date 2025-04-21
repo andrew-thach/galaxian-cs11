@@ -1,4 +1,4 @@
-![preview](https://en.wikipedia.org/wiki/File:Galaxian.png)
+![preview](https://upload.wikimedia.org/wikipedia/en/0/09/Galaxian.png)
 
 # Galaxian-CS11
 [Galaxian](https://en.wikipedia.org/wiki/Galaxian) is a fixed shooter video game developed and published by Namco for arcades.
