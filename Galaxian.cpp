@@ -1,18 +1,22 @@
+#include <locale.h>  // Allows UTF-8 Support for emojis.
+#include <ncurses.h> // Gives us a text based interface.
+
 #include "Galaxian.h"
 
 Galaxian::Galaxian(int difficulty) {
-    game_over = false;
-    score = 0;
-
     // Default to 3 if out of bounds.
     if (difficulty < 0 || difficulty > 5) {
         difficulty = 3;
     }
     num_enemy_rows = difficulty;
+
+    score = 0;
+    game_over = false;
 }
 
 void Galaxian::play() {
-    setlocale(LC_ALL, ""); // Enable UTF-8 support for emojis.
+    // Enable UTF-8 support for emojis (not used, since UTF-8 characters are wider, and messes with the alignment/hitboxes.
+    setlocale(LC_ALL, "");
 
     initscr();             // Initializes ncurses library.
     keypad(stdscr, TRUE);  // Enable keyboard input.
@@ -40,8 +44,7 @@ int Galaxian::getScore() const {
 void Galaxian::initialize_entities() {
     // Player starts in the bottom center.
     // COLS and LINES are global variables from ncurses.
-    Player.setX(COLS / 2);
-    Player.setY(LINES - 2);
+    Player = Entity(COLS / 2, LINES - 2, "^");
 
     const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
     const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).
@@ -61,7 +64,8 @@ void Galaxian::initialize_entities() {
             // Constructs an enemy with given coordinates, then stores the enemy in the wave.
             Entity Enemy(
                     (col_pos + pyramid_offset) * WAVE_COL_SPACING + swarm_col_offset,
-                    row_pos * WAVE_ROW_SPACING + swarm_row_offset
+                    row_pos * WAVE_ROW_SPACING + swarm_row_offset,
+                    "M"
             );
             Wave.push_back(Enemy);
         }
@@ -85,16 +89,14 @@ void Galaxian::draw_game() {
 void Galaxian::capture_keystroke() {
     int ch = getch();
     if(ch == KEY_LEFT) {
-        if(Player.getX() > 0)
-            Player.moveLeft();
+        Player.moveLeft();
     }
     else if(ch == KEY_RIGHT) {
-        if(Player.getX() < COLS - 1)
-            Player.moveRight();
+        Player.moveRight();
     }
     else if(ch == ' ') {
         // Create a bullet at Player's current position and store it.
-        Entity Projectile(Player.getX(), Player.getY() - 1);
+        Entity Projectile(Player.getX(), Player.getY() - 1, "|");
         Bullets.push_back(Projectile);
     }
     else if(ch == 'q') {
@@ -119,23 +121,19 @@ void Galaxian::display_scoreboard() {
 }
 
 void Galaxian::display_player() {
-    mvprintw(Player.getY(), Player.getX(), "^");
-    // This line is temporarly disabled because an emoji has a width > 1, which messes with the alignment.
-    // mvprintw(Player.getY(), Player.getX(), "🤖"); 
+    mvprintw(Player.getY(), Player.getX(), Player.getSymbol().c_str());
 }
 
 void Galaxian::display_swarm() {
     for(unsigned i = 0; i < Waves.size(); ++i) {
         for(unsigned j = 0; j < Waves[i].size(); ++j) {
-            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "M");
-            // This line is temporarily disabled because an emoji has a width > 1, which messes with the alignment.
-            // mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), "👾"); 
+            mvprintw(Waves[i][j].getY(), Waves[i][j].getX(), Waves[i][j].getSymbol().c_str());
         }
     }
 }
 
 void Galaxian::display_bullets() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
-        mvprintw(Bullets[i].getY(), Bullets[i].getX(), "|");
+        mvprintw(Bullets[i].getY(), Bullets[i].getX(), Bullets[i].getSymbol().c_str());
     }
 }
