@@ -5,7 +5,7 @@
 
 This repository hosts starter code for students to build a similar game.
 
-The game is text-based, and relies on [ncurses](https://en.wikipedia.org/wiki/Ncurses), a library that makes it easier to build TUIs (text based interfaces).
+The game is text-based, and relies on [ncurses](https://en.wikipedia.org/wiki/Ncurses), a library that makes it easier to build TUIs (terminal user interfaces).
 
 # Dependencies
 Before starting this project, you might need to install the **ncurses** library.
