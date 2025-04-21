@@ -21,7 +21,7 @@ class Galaxian {
         void initialize_entities();
         void draw_game();
         void capture_keystroke();
-        void update_game();
+        void update_game(); // TODO: Implement this function.
 
         // Helper for initialize_entities().
         std::vector<std::vector<Entity>> build_swarm(std::string shape);

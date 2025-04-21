@@ -26,7 +26,8 @@ void Galaxian::play() {
     noecho();              // Disable output of keypresses.
     curs_set(FALSE);       // Disable blinking cursor.
 
-    // Sets the frames per second.
+    // Sets the frames per second, and also allows non-blocking input.
+    // Comment this out if you want each frame to update after a keystroke.
     timeout(MILLISECONDS_PER_FRAME);
 
     initialize_entities();
@@ -84,6 +85,16 @@ void Galaxian::update_game() {
     for (unsigned i = 0; i < Bullets.size(); ++i) {
         Bullets[i].moveUp();
     }
+
+    // TODO: Find a way to update the the relevant class attributes.
+    //
+    // For examples:
+    //     - if a bullet has the same coordinates as an enemy,
+    //           remove the bullet from the vector,
+    //           remove the enemy from the 2D vector,
+    //           and update the score.
+    //     - if there are no more enemies,
+    //           update the boolean "game_over", which should terminate the game on the next frame.
 }
 
 ////////////////////////////////////////////////
