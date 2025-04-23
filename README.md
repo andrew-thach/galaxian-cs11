@@ -48,9 +48,10 @@ To interact with the game:
 - **q** to quit.
 
 # Project Directions
-1. Trace through the code to understand its intended design.
-2. Look for the "TODO" comment in the incomplete ```update_game()``` function and implement it.
-3. (Optional) Feel free to add or modify any additional features.
+1. Run the game to see the current state of its implementation.
+2. Trace through the code to understand its intended design.
+3. Look for the "TODO" comment in the incomplete ```update_game()``` function and implement it.
+4. (Optional) Feel free to refactor, add or modify any additional features.
 
 # Note(s)
 - When debugging, ```std::cout``` from ```<iostream>``` isn't compatible when the ncurses screen is open. 
