@@ -99,8 +99,8 @@ void Galaxian::update_game() {
 ////////////////////////////////////////////////
 // Helper functions for initialize_entities() //
 ////////////////////////////////////////////////
-std::vector<std::vector<Entity>> Galaxian::build_swarm(std::string shape) {
-    std::vector<std::vector<Entity>> Formation;
+std::vector<std::vector<Entity> > Galaxian::build_swarm(std::string shape) {
+    std::vector<std::vector<Entity> > Formation;
 
     const int WAVE_COL_SPACING = 3; // Each enemy is 3 characters apart (horizontally).
     const int WAVE_ROW_SPACING = 2; // Each enemy is 2 characters apart (vertically).

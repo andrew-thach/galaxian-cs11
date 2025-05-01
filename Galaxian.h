@@ -16,7 +16,7 @@ class Galaxian {
         bool game_over;
 
         Entity Player;
-        std::vector<std::vector<Entity>> Waves;
+        std::vector<std::vector<Entity> > Waves;
         std::vector<Entity> Bullets;
 
         void initialize_entities();
@@ -25,7 +25,7 @@ class Galaxian {
         void update_game(); // TODO: Implement this function in the ".cpp" file.
 
         // Helper for initialize_entities().
-        std::vector<std::vector<Entity>> build_swarm(std::string shape);
+        std::vector<std::vector<Entity> > build_swarm(std::string shape);
 
         // Helpers for draw_game().
         void buffer_scoreboard();
